@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html>
+<head>
+   <title>Ekzamen</title>
+   <meta charset="utf-8"/>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<body>
+   <p class="Name">Dimitrij Orlov</p>
+   <p class="Name">UIR 552</p>
+   <div class="one">
+      <ul>
+         <li class="spiski"><a href="index.html">Home</a></li>
+         <li class="spiski"><a href="1.html">1</a></li>
+         <li class="spiski"><a href="2.html">2</a></li>
+         <li class="spiski"><a href="3.html">3</a></li>
+         <li class="spiski"><a href="4.html">4</a></li>
+         <li class="spiski"><a href="5.html">5</a></li>
+      </ul>
+   </div>
+   <p class="zagolovok">Jef Raskin, 8 paragraphs</p>
+   <br>
+<pre>using System;
+using System.IO;
+    class AJefRaskinBuckUp 
+    {
+        static void Main(string[] args)
+        {
+           System.Console.WriteLine("Hi from AJefraskinBuckUp");
+           FileInfo fi = new FileInfo("C:\\E\\0.txt");
+           AFileCopy(fi);
+           DirectoryContent();
+        }
+   
+		static void AFileCopy(FileInfo f)
+        {
+            string s = "";
+            s = "d:" + "\\" + f.DirectoryName.Substring(3); 
+            //отрезается имя диска, например "С:\Education" - "c:\" = "Education"
+            ATestDir(s);
+            s += '\\' + f.Name;
+            try
+            {
+                f.CopyTo(s, true);
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+        }
+		
+        static void ATestDir(string s)
+        {
+            DirectoryInfo d = new DirectoryInfo(s);
+            if (d.Exists) return;
+            d.Create();
+            return;
+        }
+
+        static void DirectoryContent()
+        {
+            DirectoryInfo oD = new DirectoryInfo("C:\\E"); 
+            Console.WriteLine("DIR:{0}\n", oD.FullName.ToString());
+            foreach (FileInfo f in oD.GetFiles())
+            {
+                Console.WriteLine("Filename: {0}", f.FullName);
+                AFileCopy(f);
+            }
+            foreach (DirectoryInfo d in oD.GetDirectories())
+            {
+                AProcessDirs(d);
+            }
+        }
+
+        static void AProcessDirs(DirectoryInfo oD)
+        {
+            foreach (FileInfo f in oD.GetFiles())
+            {
+                Console.WriteLine("Filename: {0}", f.FullName);
+                AFileCopy(f);
+            }
+            foreach (DirectoryInfo d in oD.GetDirectories())
+            {
+                AProcessDirs(d);
+            }     
+
+        }
+		
+        void ASaveBlobToDatabase(FileInfo f)
+        {
+            byte[] aBLOB;
+            FileStream fs = new FileStream(f.FullName, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            aBLOB = br.ReadBytes((int)f.Length);
+            br.Close();
+            fs.Close();
+        }
+    }
+</pre>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿<!doctype html>
+<html>
+<head>
+   <title>Ekzamen</title>
+   <meta charset="utf-8"/>
+   <link rel="stylesheet" href="style.css">
+   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<body>
+   <p class="Name">Dimitrij Orlov</p>
+   <p class="Name">UIR 552</p>
+   <div class="one">
+      <ul>
+         <li class="spiski"><a href="index.html">Home</a></li>
+         <li class="spiski"><a href="1.html">1</a></li>
+         <li class="spiski"><a href="2.html">2</a></li>
+         <li class="spiski"><a href="3.html">3</a></li>
+         <li class="spiski"><a href="4.html">4</a></li>
+         <li class="spiski"><a href="5.html">5</a></li>
+      </ul>
+   </div>
+   <p class="zagolovok">Symbols</p>
+   <TEXTAREA class='text' ROWS=10 COLS=50></TEXTAREA>
+   <br>
+   <button class='parseButton'>Рассчитать</button>
+   <div class='result'>
+      <div class="length"></div>
+      <div class="unicSymbols"></div>
+      <div class="symbolsKeys"></div>
+   </div>
+</body>
+<script>
+$(".parseButton").on("click", function() {
+  $(".symbolsKeys").text("");
+
+  //text parcer
+  var text = $(".text").val();
+  var textParsed = text.toLowerCase();
+  textParsed = textParsed.replace(/[^A-Za-zА-Яа-яЁё]/g, "");
+  var str = textParsed;
+  var hist = {};
+  for (var si in str) {
+    hist[str[si]] = hist[str[si]] ? 1 + hist[str[si]] : 1;
+  }
+
+  //text length
+  var symbols = textParsed.length;
+  $(".length").text("Символы: " + symbols);
+
+  //unic symblos
+  var unicSymbols = Object.keys(hist).length;
+  $(".unicSymbols").text("Уникальные символы: " + unicSymbols);
+  
+  //Symbol:amount
+  var keys = [];
+  for (var k in hist) {
+    if (hist.hasOwnProperty(k)) {
+      keys.push(k);
+    }
+  }
+  var values = Object.values(hist);
+  var valuesPercent = [];
+  for (var i = 0; i < keys.length; i++) {
+    valuesPercent.push(values[i] / symbols);
+  }
+  for (i = 0; i < keys.length; i++) {
+    k = keys[i];
+    $(".symbolsKeys").append(k + ":" + hist[k] + "<br>");
+  }
+});
+</script>
+</html>
